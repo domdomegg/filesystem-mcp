@@ -2,6 +2,7 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import {z} from 'zod';
 import * as fs from 'node:fs/promises';
 import {jsonResult} from '../utils/response.js';
+import {expandPath} from '../utils/paths.js';
 
 const description = `Replace an exact string in a file.
 
@@ -27,7 +28,7 @@ export function registerStrReplace(server: McpServer): void {
 			},
 		},
 		async (args) => {
-			const targetPath = args.path;
+			const targetPath = expandPath(args.path);
 			const oldStr = args.old_str;
 			const newStr = args.new_str ?? '';
 

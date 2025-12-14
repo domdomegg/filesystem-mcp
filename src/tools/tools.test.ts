@@ -128,7 +128,7 @@ describe('view tool', () => {
 });
 
 describe('create tool', () => {
-	let handler: (args: {path: string; file_text: string}) => Promise<unknown>;
+	let handler: (args: {path: string; content: string}) => Promise<unknown>;
 	let tmpDir: string;
 
 	beforeEach(async () => {
@@ -152,7 +152,7 @@ describe('create tool', () => {
 	it('creates a new file', async () => {
 		const testFile = path.join(tmpDir, 'new.txt');
 
-		const result = await handler({path: testFile, file_text: 'hello world'}) as {structuredContent: {success: boolean}};
+		const result = await handler({path: testFile, content: 'hello world'}) as {structuredContent: {success: boolean}};
 
 		expect(result.structuredContent.success).toBe(true);
 		const content = await fs.readFile(testFile, 'utf-8');
@@ -162,7 +162,7 @@ describe('create tool', () => {
 	it('creates parent directories', async () => {
 		const testFile = path.join(tmpDir, 'nested', 'dir', 'file.txt');
 
-		await handler({path: testFile, file_text: 'content'});
+		await handler({path: testFile, content: 'content'});
 
 		const content = await fs.readFile(testFile, 'utf-8');
 		expect(content).toBe('content');
@@ -172,7 +172,7 @@ describe('create tool', () => {
 		const testFile = path.join(tmpDir, 'existing.txt');
 		await fs.writeFile(testFile, 'old content');
 
-		await handler({path: testFile, file_text: 'new content'});
+		await handler({path: testFile, content: 'new content'});
 
 		const content = await fs.readFile(testFile, 'utf-8');
 		expect(content).toBe('new content');

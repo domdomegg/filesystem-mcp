@@ -3,6 +3,7 @@ import {z} from 'zod';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import {jsonResult} from '../utils/response.js';
+import {expandPath} from '../utils/paths.js';
 
 const description = `View file contents or list directory.
 
@@ -31,7 +32,7 @@ export function registerView(server: McpServer): void {
 			},
 		},
 		async (args) => {
-			const targetPath = args.path;
+			const targetPath = expandPath(args.path);
 			const stat = await fs.stat(targetPath);
 
 			if (stat.isDirectory()) {

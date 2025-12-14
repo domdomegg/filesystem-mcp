@@ -3,6 +3,7 @@ import {z} from 'zod';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import {jsonResult} from '../utils/response.js';
+import {expandPath} from '../utils/paths.js';
 
 const description = `Create or overwrite a file with the specified content.
 
@@ -18,7 +19,7 @@ export function registerCreate(server: McpServer): void {
 			description,
 			inputSchema: {
 				path: z.string().describe('Absolute path where file will be created'),
-				file_text: z.string().describe('Content to write to the file'),
+				content: z.string().describe('Content to write to the file'),
 			},
 			annotations: {
 				readOnlyHint: false,
@@ -26,8 +27,8 @@ export function registerCreate(server: McpServer): void {
 			},
 		},
 		async (args) => {
-			const targetPath = args.path;
-			const content = args.file_text;
+			const targetPath = expandPath(args.path);
+			const {content} = args;
 
 			// Create parent directories if needed
 			const dir = path.dirname(targetPath);
