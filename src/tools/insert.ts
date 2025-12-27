@@ -8,6 +8,7 @@ const description = `Insert text at a specific line in a file.
 
 - insert_line = 0: Insert at the beginning
 - insert_line = N: Insert after line N
+- insert_line = -1: Insert at the end
 - insert_text should typically end with a newline
 - Use absolute paths`;
 
@@ -19,7 +20,7 @@ export function registerInsert(server: McpServer): void {
 			description,
 			inputSchema: {
 				path: z.string().describe('Absolute path to file'),
-				insert_line: z.number().int().min(0).describe('Line number to insert after (0 = beginning)'),
+				insert_line: z.number().int().min(-1).describe('Line number to insert after (0 = beginning, -1 = end)'),
 				insert_text: z.string().describe('Text to insert (should end with newline)'),
 			},
 			annotations: {
@@ -29,15 +30,19 @@ export function registerInsert(server: McpServer): void {
 		},
 		async (args) => {
 			const targetPath = expandPath(args.path);
-			const insertLine = args.insert_line;
 			const insertText = args.insert_text;
 
 			const content = await fs.readFile(targetPath, 'utf-8');
 			const lines = content.split('\n');
 
+			// Handle -1 as "end of file"
+			// If file ends with newline, insert before the trailing empty element
+			const endPosition = content.endsWith('\n') ? lines.length - 1 : lines.length;
+			const insertLine = args.insert_line === -1 ? endPosition : args.insert_line;
+
 			// Validate line number
 			if (insertLine > lines.length) {
-				throw new Error(`insert_line ${insertLine} is beyond file length (${lines.length} lines)`);
+				throw new Error(`insert_line ${args.insert_line} is beyond file length (${lines.length} lines)`);
 			}
 
 			// Warn if insert_text doesn't end with newline
