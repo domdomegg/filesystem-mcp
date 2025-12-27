@@ -284,4 +284,14 @@ describe('insert tool', () => {
 
 		await expect(handler({path: testFile, insert_line: 100, insert_text: 'x\n'})).rejects.toThrow('beyond file length');
 	});
+
+	it('inserts at end with -1', async () => {
+		const testFile = path.join(tmpDir, 'test.txt');
+		await fs.writeFile(testFile, 'line1\nline2\n');
+
+		await handler({path: testFile, insert_line: -1, insert_text: 'line3\n'});
+
+		const content = await fs.readFile(testFile, 'utf-8');
+		expect(content).toBe('line1\nline2\nline3\n');
+	});
 });
