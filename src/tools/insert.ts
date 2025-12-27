@@ -3,6 +3,7 @@ import {z} from 'zod';
 import * as fs from 'node:fs/promises';
 import {jsonResult} from '../utils/response.js';
 import {expandPath} from '../utils/paths.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const description = `Insert text at a specific line in a file.
 
@@ -18,11 +19,14 @@ export function registerInsert(server: McpServer): void {
 		{
 			title: 'Insert',
 			description,
-			inputSchema: {
-				path: z.string().describe('Absolute path to file'),
-				insert_line: z.number().int().min(-1).describe('Line number to insert after (0 = beginning, -1 = end)'),
-				insert_text: z.string().describe('Text to insert (should end with newline)'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					path: z.string().describe('Absolute path to file'),
+					insert_line: z.number().int().min(-1).describe('Line number to insert after (0 = beginning, -1 = end)'),
+					insert_text: z.string().describe('Text to insert (should end with newline)'),
+				},
+				{},
+			),
 			annotations: {
 				readOnlyHint: false,
 				destructiveHint: true,
