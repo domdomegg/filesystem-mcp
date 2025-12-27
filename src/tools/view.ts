@@ -4,6 +4,7 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import {jsonResult} from '../utils/response.js';
 import {expandPath} from '../utils/paths.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const description = `View file contents or list directory.
 
@@ -23,10 +24,13 @@ export function registerView(server: McpServer): void {
 		{
 			title: 'View',
 			description,
-			inputSchema: {
-				path: z.string().describe('Absolute path to file or directory'),
-				view_range: z.tuple([z.number(), z.number()]).optional().describe('Line range [start, end] for text files (1-indexed, inclusive)'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					path: z.string().describe('Absolute path to file or directory'),
+					view_range: z.tuple([z.number(), z.number()]).optional().describe('Line range [start, end] for text files (1-indexed, inclusive)'),
+				},
+				{},
+			),
 			annotations: {
 				readOnlyHint: true,
 			},

@@ -4,6 +4,7 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import {jsonResult} from '../utils/response.js';
 import {expandPath} from '../utils/paths.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const description = `Create or overwrite a file with the specified content.
 
@@ -17,10 +18,15 @@ export function registerCreate(server: McpServer): void {
 		{
 			title: 'Create',
 			description,
-			inputSchema: {
-				path: z.string().describe('Absolute path where file will be created'),
-				content: z.string().describe('Content to write to the file'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					path: z.string().describe('Absolute path where file will be created'),
+					content: z.string().describe('Content to write to the file'),
+				},
+				{
+					file_text: 'content',
+				},
+			),
 			annotations: {
 				readOnlyHint: false,
 				destructiveHint: true,

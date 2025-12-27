@@ -3,6 +3,7 @@ import {z} from 'zod';
 import * as fs from 'node:fs/promises';
 import {jsonResult} from '../utils/response.js';
 import {expandPath} from '../utils/paths.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const description = `Replace an exact string in a file.
 
@@ -17,11 +18,17 @@ export function registerStrReplace(server: McpServer): void {
 		{
 			title: 'String Replace',
 			description,
-			inputSchema: {
-				path: z.string().describe('Absolute path to file'),
-				old_str: z.string().describe('Exact string to find (must be unique)'),
-				new_str: z.string().optional().describe('Replacement string (omit to delete)'),
-			},
+			inputSchema: strictSchemaWithAliases(
+				{
+					path: z.string().describe('Absolute path to file'),
+					old_str: z.string().describe('Exact string to find (must be unique)'),
+					new_str: z.string().optional().describe('Replacement string (omit to delete)'),
+				},
+				{
+					old_string: 'old_str',
+					new_string: 'new_str',
+				},
+			),
 			annotations: {
 				readOnlyHint: false,
 				destructiveHint: true,
