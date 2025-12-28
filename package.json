@@ -1,6 +1,6 @@
 {
   "name": "filesystem-mcp",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "MCP server for filesystem operations (view, create, edit files)",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
