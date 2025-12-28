@@ -25,7 +25,10 @@ export function registerInsert(server: McpServer): void {
 					insert_line: z.number().int().min(-1).describe('Line number to insert after (0 = beginning, -1 = end)'),
 					insert_text: z.string().describe('Text to insert (should end with newline)'),
 				},
-				{},
+				{
+					new_str: 'insert_text',
+					new_string: 'insert_text',
+				},
 			),
 			annotations: {
 				readOnlyHint: false,
