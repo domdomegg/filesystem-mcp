@@ -16,19 +16,7 @@ MCP server for filesystem operations - read, create, and edit files.
 
 ## Setup
 
-```bash
-claude mcp add filesystem-mcp -- npx -y filesystem-mcp
-```
-
-Or with HTTP transport:
-
-```bash
-# Start the server
-MCP_TRANSPORT=http PORT=3000 npx -y filesystem-mcp
-
-# Add to Claude
-claude mcp add --transport http filesystem-mcp http://localhost:3000/mcp
-```
+Follow the up-to-date instructions on [install-mcp](https://adamjones.me/install-mcp/?config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImZpbGVzeXN0ZW0tbWNwIl0sIm5hbWUiOiJmaWxlc3lzdGVtIn0=), which generates the right config for your MCP client (Claude Code, Claude Desktop, Cursor, Cline, VS Code, and more).
 
 ## Tools
 
