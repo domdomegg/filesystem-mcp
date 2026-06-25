@@ -16,7 +16,7 @@ MCP server for filesystem operations - read, create, and edit files.
 
 ## Setup
 
-Follow the up-to-date instructions on [install-mcp](https://adamjones.me/install-mcp/?config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImZpbGVzeXN0ZW0tbWNwIl0sIm5hbWUiOiJmaWxlc3lzdGVtIn0=), which generates the right config for your MCP client (Claude Code, Claude Desktop, Cursor, Cline, VS Code, and more).
+Follow the instructions on [install-mcp](https://adamjones.me/install-mcp/?config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImZpbGVzeXN0ZW0tbWNwIl0sIm5hbWUiOiJmaWxlc3lzdGVtIn0=), which generates the right config for your MCP client (Claude Code, Claude Desktop, Cursor, Cline, VS Code, and more).
 
 ## Tools
 
